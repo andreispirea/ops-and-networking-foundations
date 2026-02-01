@@ -18,28 +18,27 @@ TBD
 TBD
 
 ## Tests & Evidence (Baseline)
-TBD
+- Initial DNS change was applied to the Host-only interface, which does not carry outbound traffic.
+- Windows continued resolving domains via the NAT interface DNS due to default gateway and interface priority.
+- DNS failure was correctly induced only after misconfiguring DNS on the NAT interface.
 
 ### After inducing failure
-- DNS set to: <wrong DNS IP>
-- `ping 8.8.8.8`: <result>
-- `nslookup google.com`: <result>
-- `ping google.com`: <result>
-- (optional) `tracert 8.8.8.8`: <result summary>
 
 ## Root Cause
-- DNS server was set to an invalid/unreachable resolver, causing name resolution failures while IP routing remained functional.
+- DNS server on the NAT (outbound) network interface was manually set to an invalid resolver (10.10.10.10), causing name resolution failures while IP routing remained functional.
 
 ## Fix
-- Set DNS back to <working DNS>
-- Flushed DNS cache: `ipconfig /flushdns`
+- Restored DNS configuration on the NAT NIC network interface to a valid resolver via DHCP.
+- Flushed local DNS cache to remove stale entries.
 
 ## Validation (After Fix)
-- `ipconfig /all` shows DNS: <DNS>
-- `nslookup google.com` succeeds
-- `ping google.com` succeeds
+- `ipconfig /all` confirms valid DNS server is configured on the NAT interface.
+- `nslookup google.com` succeeds and returns a valid IP address.
+- `ping google.com` succeeds, confirming name resolution and connectivity are restored.
+
 
 ## Prevention / Notes
 - Ensure DNS settings are managed via DHCP or documented static config.
-- In multi-NIC systems, confirm DNS is applied to the NIC used for outbound traffic.
+- On multi-homed systems, outbound traffic and DNS resolution follow the interface with a default gateway; setting DNS on non-routing interfaces will not affect name resolution.
+- When diagnosing connectivity issues, verify both IP-level connectivity and DNS resolution, and be aware of local DNS caching behavior.
 - Observed asymmetric ICMP behavior: Windows client allowed outbound ICMP but blocked inbound Echo Requests by default due to Windows Firewall rules. This is expected behavior in enterprise environments and does not indicate a network connectivity issue.
