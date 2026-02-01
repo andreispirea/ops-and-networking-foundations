@@ -12,16 +12,16 @@
 
 ### Host-only Network (Internal LAN)
 - Virtualization mode: Host-only
-- Subnet/CIDR: <e.g., 192.168.56.0/24>
+- Subnet/CIDR: 192.168.56.0/24
 - Purpose: internal connectivity between Windows and Ubuntu
-- DHCP: (Enabled/Disabled) — choose one and state it
+- DHCP: Disabled
 
 ## Hosts
 ### Windows 11 (Client)
 - Hostname: LAB-W1-WIN11
 - NIC1 (NAT): NATNetwork-Lab
   - IP: (DHCP)
-  - DNS: (from NAT / or specified)
+  - DNS: 
   - Default gateway: (DHCP)
 - NIC2 (Host-only): VirtualBox Host-Only Enthernet Adapter
   - IP: 192.168.56.10
@@ -32,13 +32,13 @@
 ### Ubuntu Server (Internal service host)
 - Hostname:
 - NIC1 (Host-only):
-  - IP:
+  - IP: 196.168.56.20
   - CIDR:
-  - Default gateway: (none unless you set one)
-  - DNS: (what resolver it uses)
+  - Default gateway: none
+  - DNS: ?
 
 ## Notes / Design choices
 - Which NIC should Windows prefer for internet? (NAT)
 - Expected connectivity:
   - Windows ↔ Ubuntu over Host-only: Yes
-  - Ubuntu → Internet: Not required (Week 1)
+  - Ubuntu → Internet: Not required 
