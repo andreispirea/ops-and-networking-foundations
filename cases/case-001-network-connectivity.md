@@ -9,21 +9,34 @@
 - Host-only subnet: 192.168.56.0/24
 
 ## Impact
-TBD
+- Windows client was unable to access external services using domain names.
+- Applications relying on DNS resolution were impacted.
+- Direct IP connectivity to external hosts remained functional.
 
 ## Symptoms
-TBD
+- `nslookup google.com` failed with DNS request timeouts.
+- `ping google.com` failed after DNS cache was flushed.
+- `ping 8.8.8.8` continued to succeed, indicating IP connectivity was available.
 
 ## Initial Hypotheses
-TBD
+1. DNS resolver misconfigured or unreachable on the outbound network interface.
+2. General network connectivity issue (routing or default gateway problem).
+3. Local DNS cache serving stale entries and masking resolver failure.
 
-## Tests & Evidence (Baseline)
-- Initial DNS change was applied to the Host-only interface, which does not carry outbound traffic.
-- Windows continued resolving domains via the NAT interface DNS due to default gateway and interface priority.
-- DNS failure was correctly induced only after misconfiguring DNS on the NAT interface.
+## Tests & Evidence
 
-### After inducing failure
+### Baseline (Before Failure)
+- `ipconfig /all`: NAT interface configured via DHCP with valid DNS server.
+- `ping 8.8.8.8`: Success, confirming outbound IP connectivity.
+- `nslookup google.com`: Success, confirming functional DNS resolution.
+- `ping google.com`: Success.
 
+### After Inducing Failure
+- DNS server on NAT interface manually set to `10.10.10.10` (invalid).
+- `ping 8.8.8.8`: Success, confirming routing was unaffected.
+- `nslookup google.com`: Failed with DNS request timeouts.
+- `ping google.com`: Failed after DNS cache was flushed.
+  
 ## Root Cause
 - DNS server on the NAT (outbound) network interface was manually set to an invalid resolver (10.10.10.10), causing name resolution failures while IP routing remained functional.
 
