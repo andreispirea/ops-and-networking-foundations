@@ -21,7 +21,7 @@
 - Hostname: LAB-W1-WIN11
 - NIC1 (NAT): NATNetwork-Lab
   - IP: (DHCP)
-  - DNS: 
+  - DNS: Provided via NAT DHCP (used for internet resolution)
   - Default gateway: (DHCP)
 - NIC2 (Host-only): VirtualBox Host-Only Enthernet Adapter
   - IP: 192.168.56.10
@@ -30,15 +30,16 @@
   - DNS: none
 
 ### Ubuntu Server (Internal service host)
-- Hostname:
+- Hostname: LAB-W1-UBU-SRV
 - NIC1 (Host-only):
-  - IP: 196.168.56.20
-  - CIDR:
+  - IP: 192.168.56.20
+  - CIDR: /24
   - Default gateway: none
-  - DNS: ?
+  - DNS: Not configured (no external name resolution required)
 
 ## Notes / Design choices
 - Which NIC should Windows prefer for internet? (NAT)
+- Host-only network intentionally has no gateway to isolate internal traffic and avoid accidental internet routing from the server.
 - Expected connectivity:
   - Windows ↔ Ubuntu over Host-only: Yes
   - Ubuntu → Internet: Not required 
