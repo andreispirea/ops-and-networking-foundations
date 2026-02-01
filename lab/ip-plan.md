@@ -18,7 +18,7 @@
 
 ## Hosts
 ### Windows 11 (Client)
-- Hostname: 
+- Hostname: LAB-W1-WIN11
 - NIC1 (NAT): NATNetwork-Lab
   - IP: (DHCP)
   - DNS: (from NAT / or specified)
