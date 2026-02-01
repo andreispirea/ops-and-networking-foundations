@@ -6,26 +6,19 @@
 ## Environment 
 - Windows 11: LAB-W1-WIN11, NICs: NAT + Host-only
 - Ubuntu Server: LAB-W1-UBU-SRV, Host-only
-- Host-only subnet: <CIDR>
+- Host-only subnet: 192.168.56.0/24
 
 ## Impact
-- Client cannot access websites by domain name (name resolution failure)
-- Direct IP connectivity may still work
+TBD
 
-## Symptoms 
-- 'ping google.com' fails with name resulution error
-- Browser cannot load domains
+## Symptoms
+TBD
 
-## Initial Hypoteses
-1) DNS resolver misconfigured/unreachable
-2) General network outage (routing/gateway)
-3) Local DNS cache issue
+## Initial Hypotheses
+TBD
 
-## Tests & Evidence (Before Fix)
-### Baseline (before changes)
-- `ipconfig /all`: <key lines only>
-- `nslookup google.com`: <result summary>
-- `ping 8.8.8.8`: <success/fail>
+## Tests & Evidence (Baseline)
+TBD
 
 ### After inducing failure
 - DNS set to: <wrong DNS IP>
